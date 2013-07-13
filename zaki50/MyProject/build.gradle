@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.4.+'
+        classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
 apply plugin: 'android'
@@ -15,10 +15,12 @@ configurations {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
-    // apt という名前の依存設定に apt factory の jar を追加する
     apt files('compile-libs/androidannotations-2.7.1.jar')
-    // compile(apk に含まれる jar のための標準の依存設定の名前)にアノテーションの jar を追加する
     compile files('libs/androidannotations-api-2.7.1.jar')
+
+    // if you'd like to depend on jars in maven repository, use these.
+    //apt "com.googlecode.androidannotations:androidannotations:2.7.1")
+    //compile "com.googlecode.androidannotations:androidannotations-api:2.7.1")
 }
 
 android {
@@ -46,7 +48,6 @@ android.applicationVariants.each { variant ->
     variant.javaCompile.doFirst {
         println "*** compile doFirst ${variant.name}, aptOutput=${aptOutput}"
         aptOutput.mkdirs()
-        // インクリメンタルビルドでエラーになるので古いファイルが存在する場合は消しておく
         aptOutput.eachFileRecurse groovy.io.FileType.FILES, {
             if (it.name.equals('R.java')) {
                 return
