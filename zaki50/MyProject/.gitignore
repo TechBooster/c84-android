@@ -32,6 +32,10 @@ build/
 # android update project コマンドで生成できます
 local.properties
 
+# リリース用の証明書のパスワードを書いたりするのに使うのでリポジトリには入れない
+gradle.properties
+
+
 # AndroidStudio のローカルな設定ファイルです
 *.iml
 # AndroidStudio のアプリ実行の設定ファイルなので ignore 対象から除外します
