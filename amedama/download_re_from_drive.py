@@ -36,15 +36,31 @@ C84 Techbooster 『Effective Android』 第21章用 サンプル
 
 import httplib2
 import pprint
+import sys
 
 from apiclient.discovery import build
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 
 # 公開出来ない情報については secret.py に保存します
-# Google Drive API の利用申請時に得られるidとsecretを
+# OAuth 2.0 の Client ID と Client Secret を
 # CLIENT_ID, CLIENT_SECRET という形で保存します。
-import secret
+try:
+    import secret
+except ImportError:
+    print >>sys.stderr, '''\
+
+Google API Console (https://code.google.com/apis/console/) から
+OAuth 2.0 の Client ID/Secret を取得し、
+secret.py というファイルに保存してください。
+
+例 (値は仮のものです):
+--
+CLIENT_ID = '653537439671.appsapps.googleusercontent.com'
+CLIENT_SECRET = '94WwQ10pAR26_48rn-uoOIbh'
+--
+'''
+    sys.exit(1)
 
 CLIENT_ID = secret.CLIENT_ID
 CLIENT_SECRET = secret.CLIENT_SECRET
@@ -88,6 +104,21 @@ if __name__ == '__main__':
     root_items  = service.children().list(folderId='root',
                                           **param).execute()['items']
     '''
+
+    if len(root_items) == 0:
+        print >>sys.stderr, '''
+このサンプルコードは、Google Drive 上に以下のようなフォルダ構成があることを
+仮定しています:
+
+ c84_techbooster/
+   - (author名)/(author名).re
+   - (author名)/(author名).re
+   - ..
+
+とりあえず c84_techbooster/ が見つかりませんでした。
+'''
+        sys.exit(1)
+
 
     assert len(root_items) == 1, 'len(items): {}'.format(len(root_items))
     pprint.pprint(root_items)
