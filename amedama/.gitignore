@@ -1,4 +1,5 @@
 *.pyc
 *~
 *.re
+secret.py
 credential_storage
