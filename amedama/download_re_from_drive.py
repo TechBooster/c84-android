@@ -48,7 +48,7 @@ from oauth2client.file import Storage
 try:
     import secret
 except ImportError:
-    print >>sys.stderr, '''\
+    print >>sys.stderr, u'''\
 
 Google API Console (https://code.google.com/apis/console/) から
 OAuth 2.0 の Client ID/Secret を取得し、
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     '''
 
     if len(root_items) == 0:
-        print >>sys.stderr, '''
+        print >>sys.stderr, u'''
 このサンプルコードは、Google Drive 上に以下のようなフォルダ構成があることを
 仮定しています:
 
