@@ -42,7 +42,7 @@ android {
     }
 }
 
-android.applicationVariants.each { variant ->
+android.applicationVariants.all { variant ->
     def aptOutput = file("${project.buildDir}/source/r/${variant.dirName}")
 
     variant.javaCompile.doFirst {
